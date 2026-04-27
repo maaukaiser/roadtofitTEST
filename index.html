@@ -3510,18 +3510,21 @@
         } else if (S.aiEx === 'press_banca' && el && wr) {
           if (Math.abs(el.x - wr.x) > 0.25) badFormMsg = '⚠️ Alinea las muñecas con tus codos';
         } else if (S.aiEx === 'press_hombro' && sh && el && wr && hp) {
-          // 1. Trayectoria (Muñeca sobre codo)
-          // Calculamos el ángulo del antebrazo respecto a la vertical
-          const forearmAngle = Math.abs(Math.atan2(wr.x - el.x, el.y - wr.y)) * 180 / Math.PI;
-          if (forearmAngle > 25) { // Relajado desde 10° a 25°
-            badFormMsg = '⚠️ Trayectoria: mantén las muñecas justo arriba de los codos';
-          }
-          
-          // 2. Flare de codos (Codos muy abiertos)
-          // Ángulo entre el torso (hombro-cadera) y el brazo (hombro-codo)
-          const flareAngle = calcAngle([hp.x, hp.y], [sh.x, sh.y], [el.x, el.y]);
-          if (flareAngle > 85) { // Ideal es 45-60°, advertimos si supera 85° (bastante permisivo)
-            badFormMsg = '⚠️ Codos muy abiertos: ciérralos un poco hacia el frente';
+          // Solo evaluar durante el movimiento, no cuando están descansando
+          if (!inStartZone) {
+            // 1. Trayectoria (Muñeca sobre codo)
+            const forearmAngle = Math.abs(Math.atan2(wr.x - el.x, el.y - wr.y)) * 180 / Math.PI;
+            if (forearmAngle > 40) { // Súper relajado a 40° para evitar falsos positivos por perspectiva
+              badFormMsg = '⚠️ Trayectoria: mantén las muñecas más rectas sobre los codos';
+            }
+            
+            // 2. Flare de codos (Apertura horizontal exagerada)
+            // En 2D es difícil ver si los codos apuntan al frente o a los lados.
+            // Solo avisaremos si la distancia horizontal del codo al hombro es absurdamente grande.
+            const elbowSpread = Math.abs(el.x - sh.x);
+            if (elbowSpread > 0.35) { // Muy permisivo
+              badFormMsg = '⚠️ Codos muy abiertos: ciérralos un poco hacia el frente';
+            }
           }
         }
       }
