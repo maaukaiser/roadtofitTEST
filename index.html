@@ -2723,14 +2723,27 @@
       toast('Sesión cerrada');
     }
 
-    function editProfile() {
+    async function editProfile() {
       // Simple inline edit: allow updating weight
       const w = prompt('Actualiza tu peso (kg):', S.user?.weight || '');
       if (w !== null && w.trim()) {
-        S.user.weight = w.trim();
-        updateProfileUI();
-        save();
-        toast('✅ Perfil actualizado localmente');
+        const newWeight = w.trim();
+        try {
+          if (S.token && S.token !== "demo_token_offline") {
+            await fetch(API_URL + `/usuarios/${S.user.id}/peso`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${S.token}` },
+              body: JSON.stringify({ peso: newWeight })
+            });
+          }
+          S.user.weight = newWeight;
+          updateProfileUI();
+          save();
+          toast('✅ Perfil actualizado en la nube');
+        } catch (e) {
+          console.error(e);
+          toast('❌ Error al actualizar peso');
+        }
       }
     }
 
@@ -3020,9 +3033,9 @@
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${S.token}` },
               body: JSON.stringify({
                 sesion_id: ses.id,
-                ejercicio_id: null, // Asumimos texto en historial backend via COALESCE
+                ejercicio_id: null,
+                ejercicio_nombre: ex.name,
                 numero: i + 1, peso: s.weight || 0, repeticiones: s.reps || 0
-                // Nota: Podríamos mapear el ID del ejercicio real si estuviera expuesto en /ejercicios
               })
             });
           }

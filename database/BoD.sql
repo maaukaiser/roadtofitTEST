@@ -177,6 +177,7 @@ CREATE TABLE series (
   id           INT           NOT NULL AUTO_INCREMENT,
   sesion_id    INT           DEFAULT NULL,
   ejercicio_id INT           DEFAULT NULL,
+  ejercicio_nombre VARCHAR(100) DEFAULT NULL,
   numero       INT           DEFAULT NULL,
   medida       VARCHAR(50)   DEFAULT NULL,
   peso         DECIMAL(6,2)  DEFAULT NULL,

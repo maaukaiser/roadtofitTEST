@@ -67,18 +67,37 @@ Antes (v2):           Ahora (v3):
 
 ---
 
-## 🗄️ Base de datos (opcional)
+## 🗄️ Configuración de Base de Datos (MySQL + XAMPP)
 
-En la carpeta `database/` están los scripts SQL del equipo.  
-En `server-backend/` está el servidor Node.js + MySQL original.
+Para habilitar la persistencia de datos en la nube local y el historial avanzado, sigue estos pasos:
 
-Para conectar el backend:
-```bash
-cd server-backend
-npm install
-# Editar .env.example → .env con tus credenciales MySQL
-node index.js
-```
+### 1. Servidor de Base de Datos (XAMPP)
+1. Instala y abre **XAMPP Control Panel**.
+2. Inicia los módulos **Apache** y **MySQL**.
+3. Ve a `http://localhost/phpmyadmin` en tu navegador.
+4. Crea una base de datos llamada `road_to_fit`.
+5. Importa el archivo `database/BoD.sql` (esto creará las tablas necesarias, incluyendo la nueva columna `ejercicio_nombre`).
+
+### 2. Configuración del Backend (Node.js)
+1. Ve a la carpeta `server-backend/`.
+2. Crea un archivo `.env` basado en `.env.example`:
+   ```env
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_USER=root
+   DB_PASSWORD=
+   DB_NAME=road_to_fit
+   PORT=3001
+   JWT_SECRET=tu_clave_secreta
+   ```
+3. Instala dependencias e inicia el servidor:
+   ```bash
+   npm install
+   node index.js
+   ```
+
+### 3. Conexión del Frontend
+Una vez que el servidor esté corriendo en el puerto `3001`, abre `index.html`. La app detectará automáticamente el backend. Al registrarte o iniciar sesión, tus datos se guardarán en MySQL en lugar de solo en el navegador.
 
 ---
 

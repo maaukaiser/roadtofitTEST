@@ -126,6 +126,18 @@ router.get('/usuarios/:id', verificarToken, async (req, res) => {
   }
 });
 
+router.patch('/usuarios/:id/peso', verificarToken, async (req, res) => {
+  try {
+    const { peso } = req.body;
+    await pool.query('UPDATE usuarios SET peso = ? WHERE id = ?', [peso, req.params.id]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('ERROR /usuarios/:id/peso PATCH:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // ─────────────────────────────────────────
 //  EJERCICIOS
 // ─────────────────────────────────────────
@@ -189,10 +201,10 @@ router.get('/sesiones/usuario/:usuario_id', verificarToken, async (req, res) => 
 // ─────────────────────────────────────────
 router.post('/series', verificarToken, async (req, res) => {
   try {
-    const { sesion_id, ejercicio_id, numero, medida, peso, repeticiones, rir } = req.body;
+    const { sesion_id, ejercicio_id, ejercicio_nombre, numero, medida, peso, repeticiones, rir } = req.body;
     const [result] = await pool.query(
-      'INSERT INTO series (sesion_id, ejercicio_id, numero, medida, peso, repeticiones, rir) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [sesion_id, ejercicio_id ?? null, numero ?? 1, medida ?? 'kg', peso ?? null, repeticiones ?? null, rir ?? 0]
+      'INSERT INTO series (sesion_id, ejercicio_id, ejercicio_nombre, numero, medida, peso, repeticiones, rir) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [sesion_id, ejercicio_id ?? null, ejercicio_nombre ?? null, numero ?? 1, medida ?? 'kg', peso ?? null, repeticiones ?? null, rir ?? 0]
     );
     res.status(201).json({ id: result.insertId });
   } catch (err) {
@@ -230,7 +242,7 @@ router.get('/historial/usuario/:usuario_id', verificarToken, async (req, res) =>
     for (const sesion of sesiones) {
       const [series] = await pool.query(
         `SELECT sr.numero, sr.peso, sr.repeticiones, sr.rir,
-                COALESCE(e.nombre, sr.ejercicio_id) AS ejercicio
+                COALESCE(e.nombre, sr.ejercicio_nombre) AS ejercicio
          FROM series sr
          LEFT JOIN ejercicios e ON sr.ejercicio_id = e.id
          WHERE sr.sesion_id = ?
