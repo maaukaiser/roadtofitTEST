@@ -3507,8 +3507,22 @@
           }
         } else if (S.aiEx === 'curl_bicep' && sh && el && hp) {
           if (Math.abs(sh.x - el.x) > 0.15) badFormMsg = '⚠️ No balancees el codo, mantenlo pegado';
-        } else if ((S.aiEx === 'press_banca' || S.aiEx === 'press_hombro') && el && wr) {
+        } else if (S.aiEx === 'press_banca' && el && wr) {
           if (Math.abs(el.x - wr.x) > 0.25) badFormMsg = '⚠️ Alinea las muñecas con tus codos';
+        } else if (S.aiEx === 'press_hombro' && sh && el && wr && hp) {
+          // 1. Trayectoria (Muñeca sobre codo)
+          // Calculamos el ángulo del antebrazo respecto a la vertical
+          const forearmAngle = Math.abs(Math.atan2(wr.x - el.x, el.y - wr.y)) * 180 / Math.PI;
+          if (forearmAngle > 25) { // Relajado desde 10° a 25°
+            badFormMsg = '⚠️ Trayectoria: mantén las muñecas justo arriba de los codos';
+          }
+          
+          // 2. Flare de codos (Codos muy abiertos)
+          // Ángulo entre el torso (hombro-cadera) y el brazo (hombro-codo)
+          const flareAngle = calcAngle([hp.x, hp.y], [sh.x, sh.y], [el.x, el.y]);
+          if (flareAngle > 85) { // Ideal es 45-60°, advertimos si supera 85° (bastante permisivo)
+            badFormMsg = '⚠️ Codos muy abiertos: ciérralos un poco hacia el frente';
+          }
         }
       }
 
