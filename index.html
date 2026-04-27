@@ -2415,8 +2415,8 @@
       sentadilla: {
         name: 'Sentadilla', emoji: '🦵',
         joints: { RIGHT: [24, 26, 28], LEFT: [23, 25, 27] }, // hip,knee,ankle
-        angleDown: 100, angleUp: 165,
-        downFrames: 4, upFrames: 3,
+        angleDown: 120, angleUp: 150,
+        downFrames: 2, upFrames: 2,
         feedDown: '⬇️ Baja más — rodillas a 90°',
         feedUp: '⬆️ Sube y aprieta glúteos',
         feedGood: '✅ ¡Rango completo!',
@@ -2439,8 +2439,8 @@
       press_hombro: {
         name: 'Press de Hombro', emoji: '🏋️',
         joints: { RIGHT: [12, 14, 16], LEFT: [11, 13, 15] },
-        angleDown: 80, angleUp: 155,
-        downFrames: 3, upFrames: 3,
+        angleDown: 105, angleUp: 140,
+        downFrames: 2, upFrames: 2,
         feedDown: '⬇️ Baja a nivel de hombro',
         feedUp: '⬆️ ¡Extiende completamente!',
         feedGood: '✅ ¡Buen rango!',
@@ -3463,11 +3463,11 @@
         const hp = lm[isRight ? 24 : 23];
 
         if (S.aiEx === 'curl_bicep' && sh && el && hp) {
-          if (Math.abs(sh.x - el.x) > 0.12) badFormMsg = '⚠️ No balancees el codo, mantenlo pegado';
+          if (Math.abs(sh.x - el.x) > 0.15) badFormMsg = '⚠️ No balancees el codo, mantenlo pegado';
         } else if (S.aiEx === 'sentadilla' && sh && hp) {
-          if (Math.abs(sh.x - hp.x) > 0.18) badFormMsg = '⚠️ Mantén el torso o espalda más rectos';
+          if (Math.abs(sh.x - hp.x) > 0.28) badFormMsg = '⚠️ Mantén el torso o espalda más rectos';
         } else if ((S.aiEx === 'press_banca' || S.aiEx === 'press_hombro') && el && wr) {
-          if (Math.abs(el.x - wr.x) > 0.15) badFormMsg = '⚠️ Alinea las muñecas con tus codos';
+          if (Math.abs(el.x - wr.x) > 0.25) badFormMsg = '⚠️ Alinea las muñecas con tus codos';
         }
       }
 
