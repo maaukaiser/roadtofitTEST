@@ -3517,14 +3517,8 @@
             if (forearmAngle > 40) { // Súper relajado a 40° para evitar falsos positivos por perspectiva
               badFormMsg = '⚠️ Trayectoria: mantén las muñecas más rectas sobre los codos';
             }
-            
-            // 2. Flare de codos (Apertura horizontal exagerada)
-            // En 2D es difícil ver si los codos apuntan al frente o a los lados.
-            // Solo avisaremos si la distancia horizontal del codo al hombro es absurdamente grande.
-            const elbowSpread = Math.abs(el.x - sh.x);
-            if (elbowSpread > 0.35) { // Muy permisivo
-              badFormMsg = '⚠️ Codos muy abiertos: ciérralos un poco hacia el frente';
-            }
+            // NOTA: Se eliminó cualquier alerta por abrir los codos ("flare"). 
+            // Abrir los codos a ~45°-60° es lo más anatómicamente seguro para el press militar.
           }
         }
       }
