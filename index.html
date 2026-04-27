@@ -3471,35 +3471,39 @@
           const dy = hp.y - sh.y;
           const torsoAngle = Math.abs(Math.atan2(dx, dy) * 180 / Math.PI);
 
+          // Actualizar la postura base continuamente MIENTRAS el usuario esté de pie
           if (inStartZone && S.aiPhase === 'start') {
-            if (!S.sqInitTorsoAngle) S.sqInitTorsoAngle = torsoAngle;
-            if (!S.sqInitHeelY) S.sqInitHeelY = hl.y;
+            S.sqInitTorsoAngle = torsoAngle;
+            S.sqInitHeelY = hl.y;
           }
 
-          // Valgo (colapso de rodillas)
-          const rKn = lm[26], lKn = lm[25];
-          const rHp = lm[24], lHp = lm[23];
-          if (rKn && lKn && rHp && lHp) {
-            const knDist = Math.abs(rKn.x - lKn.x);
-            const hpDist = Math.abs(rHp.x - lHp.x);
-            if (hpDist > 0.04 && knDist < 0.90 * hpDist && inTargetZone) {
-               badFormMsg = '⚠️ Valgo: rodillas colapsando hacia adentro';
+          // Solo evaluar técnica si el usuario ya bajó (fuera de la zona inicial)
+          if (!inStartZone) {
+            // Valgo (colapso de rodillas)
+            const rKn = lm[26], lKn = lm[25];
+            const rHp = lm[24], lHp = lm[23];
+            if (rKn && lKn && rHp && lHp) {
+              const knDist = Math.abs(rKn.x - lKn.x);
+              const hpDist = Math.abs(rHp.x - lHp.x);
+              if (hpDist > 0.04 && knDist < 0.85 * hpDist) { // Relajado a 85%
+                 badFormMsg = '⚠️ Valgo: separa un poco más las rodillas';
+              }
             }
-          }
 
-          if (inTargetZone) {
-            // Butt Wink
-            if (S.sqInitTorsoAngle && Math.abs(torsoAngle - S.sqInitTorsoAngle) > 15) {
-               badFormMsg = '⚠️ Butt Wink: no redondees la zona lumbar abajo';
-            } else if (torsoAngle > 45) {
-               // Inclinación excesiva
-               badFormMsg = '⚠️ Inclinación: torso muy hacia adelante (>45°)';
+            // Butt Wink (Bajó demasiado la lumbar / redondeo)
+            // Se aumentó el límite a 25° para ser más permisivo
+            if (S.sqInitTorsoAngle && Math.abs(torsoAngle - S.sqInitTorsoAngle) > 25) {
+               badFormMsg = '⚠️ Butt Wink: bajaste mucho la lumbar, saca pecho';
+            } 
+            // Inclinación excesiva
+            else if (torsoAngle > 55) { // Relajado a 55°
+               badFormMsg = '⚠️ Inclinación: torso muy hacia adelante';
             }
-          }
 
-          // Talones levantados
-          if (S.sqInitHeelY && (S.sqInitHeelY - hl.y) > 0.02) {
-             badFormMsg = '⚠️ Talones: no los levantes del suelo';
+            // Talones levantados (ΔY > 0.03 para evitar falsos positivos por ruido de cámara)
+            if (S.sqInitHeelY && (S.sqInitHeelY - hl.y) > 0.03) {
+               badFormMsg = '⚠️ Talones: empuja con la planta completa';
+            }
           }
         } else if (S.aiEx === 'curl_bicep' && sh && el && hp) {
           if (Math.abs(sh.x - el.x) > 0.15) badFormMsg = '⚠️ No balancees el codo, mantenlo pegado';
