@@ -3199,6 +3199,7 @@
       S.aiPhase = 'down'; S.aiConfDown = 0; S.aiConfUp = 0;
       S.aiRepConfirmed = false; S.aiAngleHistory = [];
       S.aiPlanchaTime = 0; clearInterval(S.aiPlanchaTimer);
+      S.sqInitTorsoAngle = null; S.sqInitHeelY = null;
       updateAIUI();
     }
     function toggleAI() {
@@ -3461,11 +3462,47 @@
         const el = lm[isRight ? 14 : 13];
         const wr = lm[isRight ? 16 : 15];
         const hp = lm[isRight ? 24 : 23];
+        const kn = lm[isRight ? 26 : 25];
+        const hl = lm[isRight ? 30 : 29];
 
-        if (S.aiEx === 'curl_bicep' && sh && el && hp) {
+        if (S.aiEx === 'sentadilla' && sh && hp && kn && hl) {
+          // Ángulo del torso vs vertical
+          const dx = hp.x - sh.x;
+          const dy = hp.y - sh.y;
+          const torsoAngle = Math.abs(Math.atan2(dx, dy) * 180 / Math.PI);
+
+          if (inStartZone && S.aiPhase === 'start') {
+            if (!S.sqInitTorsoAngle) S.sqInitTorsoAngle = torsoAngle;
+            if (!S.sqInitHeelY) S.sqInitHeelY = hl.y;
+          }
+
+          // Valgo (colapso de rodillas)
+          const rKn = lm[26], lKn = lm[25];
+          const rHp = lm[24], lHp = lm[23];
+          if (rKn && lKn && rHp && lHp) {
+            const knDist = Math.abs(rKn.x - lKn.x);
+            const hpDist = Math.abs(rHp.x - lHp.x);
+            if (hpDist > 0.04 && knDist < 0.90 * hpDist && inTargetZone) {
+               badFormMsg = '⚠️ Valgo: rodillas colapsando hacia adentro';
+            }
+          }
+
+          if (inTargetZone) {
+            // Butt Wink
+            if (S.sqInitTorsoAngle && Math.abs(torsoAngle - S.sqInitTorsoAngle) > 15) {
+               badFormMsg = '⚠️ Butt Wink: no redondees la zona lumbar abajo';
+            } else if (torsoAngle > 45) {
+               // Inclinación excesiva
+               badFormMsg = '⚠️ Inclinación: torso muy hacia adelante (>45°)';
+            }
+          }
+
+          // Talones levantados
+          if (S.sqInitHeelY && (S.sqInitHeelY - hl.y) > 0.02) {
+             badFormMsg = '⚠️ Talones: no los levantes del suelo';
+          }
+        } else if (S.aiEx === 'curl_bicep' && sh && el && hp) {
           if (Math.abs(sh.x - el.x) > 0.15) badFormMsg = '⚠️ No balancees el codo, mantenlo pegado';
-        } else if (S.aiEx === 'sentadilla' && sh && hp) {
-          if (Math.abs(sh.x - hp.x) > 0.28) badFormMsg = '⚠️ Mantén el torso o espalda más rectos';
         } else if ((S.aiEx === 'press_banca' || S.aiEx === 'press_hombro') && el && wr) {
           if (Math.abs(el.x - wr.x) > 0.25) badFormMsg = '⚠️ Alinea las muñecas con tus codos';
         }
