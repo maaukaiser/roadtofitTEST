@@ -1,0 +1,23 @@
+{
+  "name": "Road To Fit",
+  "short_name": "RoadToFit",
+  "description": "Entrenamiento con análisis de postura por IA — sin servidor",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#34d399",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["fitness", "health", "sports"]
+}

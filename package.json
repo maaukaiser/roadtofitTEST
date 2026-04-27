@@ -1,0 +1,19 @@
+{
+  "name": "road-to-fit",
+  "version": "3.0.0",
+  "description": "Road To Fit — Entrenamiento con análisis IA sin servidor",
+  "scripts": {
+    "build-android": "npx cap add android && npx cap sync android && npx cap open android",
+    "build-ios": "npx cap add ios && npx cap sync ios && npx cap open ios",
+    "serve": "npx serve . -p 3000"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^5.0.0",
+    "serve": "^14.0.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/ios": "^5.0.0"
+  }
+}
