@@ -1,7 +1,7 @@
 {
   "appId": "mx.roadtofit.app",
   "appName": "Road To Fit",
-  "webDir": ".",
+  "webDir": "www",
   "server": {
     "androidScheme": "https"
   },
