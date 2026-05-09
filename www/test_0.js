@@ -67,6 +67,7 @@
         name: 'Curl de Bíceps', emoji: '💪',
         joints: { RIGHT: [12, 14, 16], LEFT: [11, 13, 15] }, // shoulder,elbow,wrist
         angleDown: 145, angleUp: 60,   // más tolerante: start zone > 145°, target zone < 60°
+        startAt: 'bottom',
         downFrames: 2, upFrames: 2,    // respuesta rápida
         feedDown: '⬇️ Baja el brazo completamente',
         feedUp: '⬆️ ¡Sube y aprieta el bíceps!',
@@ -79,6 +80,7 @@
         name: 'Sentadilla', emoji: '🦵',
         joints: { RIGHT: [24, 26, 28], LEFT: [23, 25, 27] }, // hip,knee,ankle
         angleDown: 120, angleUp: 150,
+        startAt: 'top',
         downFrames: 2, upFrames: 2,
         feedDown: '⬇️ Baja más — rodillas a 90°',
         feedUp: '⬆️ Sube y aprieta glúteos',
@@ -91,6 +93,7 @@
         name: 'Press de Banca', emoji: '🏋️',
         joints: { RIGHT: [12, 14, 16], LEFT: [11, 13, 15] }, // shoulder,elbow,wrist
         angleDown: 80, angleUp: 150,
+        startAt: 'top',
         downFrames: 3, upFrames: 3,
         feedDown: '⬇️ Baja la barra al pecho',
         feedUp: '⬆️ ¡Empuja explosivo!',
@@ -103,6 +106,7 @@
         name: 'Press de Hombro', emoji: '🏋️',
         joints: { RIGHT: [12, 14, 16], LEFT: [11, 13, 15] },
         angleDown: 125, angleUp: 140,
+        startAt: 'bottom',
         downFrames: 2, upFrames: 2,
         feedDown: '⬇️ Baja a nivel de hombro',
         feedUp: '⬆️ ¡Extiende completamente!',
@@ -1101,8 +1105,8 @@
       const inBottomZone = isInverted ? (angle <= cfg.angleDown) : (angle >= cfg.angleDown);
       const inTopZone = isInverted ? (angle >= cfg.angleUp) : (angle <= cfg.angleUp);
 
-      const inStartZone = isInverted ? inTopZone : inBottomZone;
-      const inTargetZone = isInverted ? inBottomZone : inTopZone;
+      const inStartZone = cfg.startAt === 'top' ? inTopZone : inBottomZone;
+      const inTargetZone = cfg.startAt === 'top' ? inBottomZone : inTopZone;
 
       if (inStartZone) {
         S.aiConfDown = (S.aiConfDown || 0) + 1;
@@ -1201,12 +1205,12 @@
       if (badFormMsg) {
         S.aiQual = 'MALA'; S.aiFeed = badFormMsg; S.aiFeedType = 'error';
         if (window.playBuzz) window.playBuzz();
-      } else if (inTopZone) {
+      } else if (inTargetZone) {
         S.aiQual = 'EXCELENTE'; S.aiFeed = cfg.feedGood; S.aiFeedType = 'good';
-      } else if (inBottomZone && S.aiPhase === 'down') {
-        S.aiQual = 'BIEN'; S.aiFeed = cfg.feedUp; S.aiFeedType = '';
-      } else if (S.aiPhase === 'up') {
-        S.aiQual = 'BIEN'; S.aiFeed = cfg.feedDown; S.aiFeedType = '';
+      } else if (S.aiPhase === 'start') {
+        S.aiQual = 'BIEN'; S.aiFeed = cfg.startAt === 'top' ? cfg.feedDown : cfg.feedUp; S.aiFeedType = '';
+      } else if (S.aiPhase === 'target') {
+        S.aiQual = 'BIEN'; S.aiFeed = cfg.startAt === 'top' ? cfg.feedUp : cfg.feedDown; S.aiFeedType = '';
       } else {
         S.aiQual = 'BIEN'; S.aiFeed = '¡Sigue así, buen ritmo!'; S.aiFeedType = '';
       }
