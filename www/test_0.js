@@ -931,7 +931,6 @@
         onFrame: async () => {
           if (S.mpPose && S.aiRunning) await S.mpPose.send({ image: S.mpVideo });
         },
-        width: 640, height: 480,
         facingMode: S.cameraFacing   // 'environment' = trasera | 'user' = frontal
       });
 
@@ -984,7 +983,6 @@
           onFrame: async () => {
             if (S.mpPose && S.aiRunning) await S.mpPose.send({ image: S.mpVideo });
           },
-          width: 640, height: 480,
           facingMode: S.cameraFacing
         });
         S.mpCamera.start();
