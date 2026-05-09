@@ -1,5 +1,4 @@
-
-    /* ================================================
+/* ================================================
        ROAD TO FIT v3 — MediaPipe Pure JS
        Todos los requisitos del Acta Constitutiva
        ================================================ */
@@ -19,7 +18,7 @@
       { id: 'cardio', label: 'Cardio', icon: '❤️' },
     ];
     const EXERCISES = [
-      { id: 'curl_bicep', name: 'Curl de Bíceps', muscle: 'biceps', icon: '💪', ai: true, desc: 'Curl clásico, bícep braquial', videoId: 'in7PaeYlhrM' },
+      { id: 'curl_bicep', name: 'Curl de Bíceps', muscle: 'biceps', icon: '💪', ai: true, desc: 'Curl clásico, bícep braquial', videoId: 'MKWBV29S6c0' },
       { id: 'curl_martillo', name: 'Curl Martillo', muscle: 'biceps', icon: '💪', desc: 'Agarre neutro' },
       { id: 'curl_concentrado', name: 'Curl Concentrado', muscle: 'biceps', icon: '💪', desc: 'Apoyo en rodilla' },
       { id: 'curl_polea', name: 'Curl en Polea', muscle: 'biceps', icon: '💪', desc: 'Tensión constante' },
@@ -29,25 +28,25 @@
       { id: 'press_frances', name: 'Press Francés', muscle: 'triceps', icon: '🦾', desc: 'Barra EZ tumbado' },
       { id: 'tricep_copa', name: 'Extensión sobre cabeza', muscle: 'triceps', icon: '🦾', desc: 'Estiramiento completo' },
       { id: 'kickback', name: 'Patada de Tríceps', muscle: 'triceps', icon: '🦾', desc: 'Con mancuerna inclinado' },
-      { id: 'press_hombro', name: 'Press de Hombro', muscle: 'hombros', icon: '🏋️', ai: true, desc: 'Barra o mancuerna, sentado o de pie', videoId: 'B-aVpuGxEks' },
+      { id: 'press_hombro', name: 'Press de Hombro', muscle: 'hombros', icon: '🏋️', ai: true, desc: 'Barra o mancuerna, sentado o de pie', videoId: 'k6tzKisR3NY' },
       { id: 'elev_lateral', name: 'Elevación Lateral', muscle: 'hombros', icon: '🤸', desc: 'Deltoides medial' },
       { id: 'elev_frontal', name: 'Elevación Frontal', muscle: 'hombros', icon: '🤸', desc: 'Deltoides anterior' },
       { id: 'facepull', name: 'Face Pull', muscle: 'hombros', icon: '🤸', desc: 'Deltoides posterior' },
-      { id: 'press_banca', name: 'Press de Banca', muscle: 'pecho', icon: '🏋️', ai: true, desc: 'Pecho completo', videoId: 'rT7DgCr-3pg' },
+      { id: 'press_banca', name: 'Press de Banca', muscle: 'pecho', icon: '🏋️', ai: true, desc: 'Pecho completo', videoId: 'XjrsqShr-Ic' },
       { id: 'press_inclinado', name: 'Press Inclinado', muscle: 'pecho', icon: '🏋️', desc: 'Pecho superior' },
       { id: 'aperturas', name: 'Aperturas (Flyes)', muscle: 'pecho', icon: '🤸', desc: 'Estiramiento pectoral' },
       { id: 'flexiones', name: 'Flexiones', muscle: 'pecho', icon: '🤸', desc: 'Empuje con peso corporal' },
       { id: 'press_mancuerna', name: 'Press Mancuerna', muscle: 'pecho', icon: '🏋️', desc: 'Mayor rango de movimiento' },
-      { id: 'dominadas', name: 'Dominadas', muscle: 'espalda', icon: '🧗', desc: 'Jalón al pecho, dorsal', videoId: 'eGo4IYPNgEM' },
+      { id: 'dominadas', name: 'Dominadas', muscle: 'espalda', icon: '🧗', desc: 'Jalón al pecho, dorsal', videoId: 'eDP_OOhMTZ4' },
       { id: 'jalon_polea', name: 'Jalón en Polea', muscle: 'espalda', icon: '🏗️', desc: 'Alternativa a dominadas' },
       { id: 'remo_barra', name: 'Remo con Barra', muscle: 'espalda', icon: '🏗️', desc: 'Dorsal y romboides' },
-      { id: 'peso_muerto', name: 'Peso Muerto', muscle: 'espalda', icon: '🏋️', desc: 'Movimiento compuesto', videoId: 'wYREQkVtvEc' },
-      { id: 'plancha', name: 'Plancha Estática', muscle: 'core', icon: '🔥', ai: true, desc: 'Core completo, postura', videoId: 'ASdvN_XEl_c' },
-      { id: 'plancha_tiempo', name: 'Plancha con IA', muscle: 'core', icon: '🔥', ai: true, desc: 'Temporizador + forma correcta', videoId: 'ASdvN_XEl_c' },
+      { id: 'peso_muerto', name: 'Peso Muerto', muscle: 'espalda', icon: '🏋️', desc: 'Movimiento compuesto', videoId: 'K4sB7gD1GJE' },
+      { id: 'plancha', name: 'Plancha Estática', muscle: 'core', icon: '🔥', ai: true, desc: 'Core completo, postura' },
+      { id: 'plancha_tiempo', name: 'Plancha con IA', muscle: 'core', icon: '🔥', ai: true, desc: 'Temporizador + forma correcta' },
       { id: 'crunch', name: 'Crunch Abdominal', muscle: 'core', icon: '🔥', desc: 'Recto abdominal' },
       { id: 'russian_twist', name: 'Russian Twist', muscle: 'core', icon: '🔥', desc: 'Oblicuos' },
       { id: 'leg_raise', name: 'Elevación de piernas', muscle: 'core', icon: '🔥', desc: 'Abdomen inferior' },
-      { id: 'sentadilla', name: 'Sentadilla', muscle: 'cuadriceps', icon: '🦵', ai: true, desc: 'Movimiento rey del tren inferior', videoId: 'U3H3OoaJ8xI' },
+      { id: 'sentadilla', name: 'Sentadilla', muscle: 'cuadriceps', icon: '🦵', ai: true, desc: 'Movimiento rey del tren inferior', videoId: 'dW3zj79xfrc' },
       { id: 'sentadilla_frontal', name: 'Sentadilla Frontal', muscle: 'cuadriceps', icon: '🦵', desc: 'Mayor foco cuádriceps' },
       { id: 'prensa', name: 'Prensa de Piernas', muscle: 'cuadriceps', icon: '🦵', desc: 'Máquina' },
       { id: 'zancadas', name: 'Zancadas (Lunges)', muscle: 'cuadriceps', icon: '🦵', desc: 'Con o sin peso' },
@@ -526,7 +525,10 @@
 
     function openTutorial(videoId, title) {
       const iframe = document.getElementById('tut-iframe');
-      if (iframe) iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      // Usamos el formato oficial de embed de YouTube
+      if (iframe) iframe.src = `https://www.youtube.com/embed/${videoId}?feature=oembed`;
+      const link = document.getElementById('tut-link');
+      if (link) link.href = `https://www.youtube.com/shorts/${videoId}`;
       setText('tut-title', title + ' - Tutorial');
       openMod('mod-tutorial');
     }
@@ -1323,4 +1325,9 @@
       }
       return streak;
     }
-  
+
+if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => { });
+      });
+    }
